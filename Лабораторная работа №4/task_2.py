@@ -1,10 +1,22 @@
-import csv
 import json
 
+INPUT_FILE = "input.csv"
 
-src = input("Введите путь до файла CSV: ")
+
+def csv_to_list_dict(filename, delimiter=',', new_line='\n'):
+    with open(filename) as f:
+        table = []
+        for index, line in enumerate(f):
+            fields = line.strip(new_line).split(delimiter)
+            if index == 0:
+                heads = fields
+                continue
+
+            table.append({})
+
+            for i, _ in enumerate(heads):
+                table[-1][heads[i]] = fields[i]
+    return table
 
 
-def konverter(src):
-    lines = [line for line in csv.DictReader(src)]
-print(json.dumps([lines], 4))
+print(json.dumps(csv_to_list_dict(INPUT_FILE), indent=4))
